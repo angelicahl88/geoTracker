@@ -1,28 +1,5 @@
 // Develop a REST API Server to gather and process visitor data. Provide GoogleMaps viewer frontend for previewing last 100 unique visits
 
-// Input data from remote tracking nodes at '/api/track'
-  // If duplicate visit, only send visit with strongest signal (rssi)
-  // Archive data from 'tracker'
-  // Archive data from 'internet-provider'
-  // locally store data from mobile
-  // locally store data from drone
-
-
-// Processed data from '/api/track' to archive server at '/api/archive'
-  // Only accepts 'POST'
-  // Mandatory 'X-Auth-Token: Tracker1234' header
-  // Response 'status: ok'
-  // Response JSON
-  // Response 200 code on success
-  // Response 403 code on forbidden (invalid token)
-  // Response 400 code on malformed input data (all fields required)
-
-// Frontend viewer at '/viewer'
-  // Serve Google maps view with last 100 unique visits
-  // Visits grouped on markers
-  // Truncate position to 4 decimal places (not rounding)
-
-
   'use strict';
 
   var express = require('express');
@@ -31,17 +8,17 @@
 
   var jsonParser = require('body-parser').json;
   var morgan = require('morgan');
+  var expressValidator = require('express-validator');
 
   app.use(morgan('dev'));
   app.use(jsonParser());
+  app.use(expressValidator());
 
-  // Connect to database
-  require('./models/database');
 
   //--CORS handler not included as project is locally hosted--//
 
-  app.use('/', express.static('public'));
-  app.use('/events', router);
+  //app.use('/', express.static('public'));
+  app.use('/', router);
 
   // Error handlers
   app.use(function(req, res, next) {

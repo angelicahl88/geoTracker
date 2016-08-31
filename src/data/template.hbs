@@ -1,0 +1,20 @@
+{
+  "node": [
+  {{#repeat 10}}
+  {
+    "node_type": {{int 0 4}},
+    "visits": [
+    {{#repeat 5}}
+    {
+      "lat": "{{int 59.24 59.52}}",
+      "long": {{int 17.85 18.28}},
+      "time": {{date 2015 2016 'unix'}},
+      "device": "{{deviceHash}}",
+      "rssi": {{int -120 0 round=10}}
+    },
+    {{/repeat}}
+    ]
+  }
+  {{/repeat}}
+  ]
+}
