@@ -13,7 +13,7 @@ var createMarkers = function(data) {
   data.visits.forEach(function(visit, index) {
     markerArray.push(
       L.marker([truncateCoords(visit.lat), truncateCoords(visit.long)])
-        .bindPopup('<h2>RSSI:' + visit.rssi + '</h2>')
+        .bindPopup('<h2>RSSI: ' + visit.rssi + '</h2>')
     );
   });
   return markerArray;
@@ -29,8 +29,8 @@ var createLayerGroup = function(nodes) {
 
 //Instantiate a Leaflet Map
 var map = L.map('map', {
-  center:[59.3, 18.0],
-  zoom: 8
+  center:[59.4, 18.15],
+  zoom: 10
 });
 
 //Load tileLayer and add to map

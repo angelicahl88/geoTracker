@@ -26,7 +26,7 @@ var validInput = function(req) {
         errors.message = 'Time is required';
       } else if(value.device == null || value.device == '') {
         errors.message = 'Device is required';
-      } else if(value.rssi == null) {
+      } else if(value.rssi === null || typeof value.rssi !== 'number') {
         errors.message = 'RSSI is required';
       }
     });
@@ -88,14 +88,14 @@ router.get('/viewer', function(req, res, next) {
 
 // Return last 100 visits
   var markerArray = [];
-  for(var i = 0; i < 3; i++) {
+  for(var i = 0; i < 100; i++) {
     markerArray.push(localJson.node[i]);
   }
 
   res.json(markerArray);
 
 });
-  
+
 
 
 module.exports = router;
