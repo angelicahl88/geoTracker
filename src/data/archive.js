@@ -42,9 +42,18 @@ var archiveNodesData = function(nodeData) {
   return archiveData;
 }
 
+// var removeDuplicateVisits(nodes) {
+//   nodes.visits.forEach(function(value, index) {
+//
+//   });
+// }
+
 var processData = function(trackingNodes) {
   var archive = [];
   trackingNodes.node.forEach(function(value, index) {
+
+    //var cleanedData = removeDuplicateVisits(value);
+
     if(value.node_type === 1 || value.node_type === 2) {
     //if 1 or 2
       // Archive data from 'tracker'

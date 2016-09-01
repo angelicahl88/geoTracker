@@ -4,12 +4,16 @@
 var $ = require('jquery');
 var L = require('leaflet');
 
+function truncateCoords(coord) {
+  return Math.floor(coord * 10000) / 10000;
+}
+
 // Create markers for each visit
 var createMarkers = function(data) {
   var markerArray = [];
   data.visits.forEach(function(visit, index) {
     markerArray.push(
-      L.marker([visit.lat, visit.long])
+      L.marker([truncateCoords(visit.lat), truncateCoords(visit.long)])
         .bindPopup('<h2>RSSI:' + visit.rssi + '</h2>')
     );
   });
