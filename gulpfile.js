@@ -30,7 +30,7 @@ gulp.task('app', function() {
     .bundle()
     .pipe(source('app.bundle.js'))
     .pipe(maps.write('./'))
-    .pipe(gulp.dest(__dirname + '/public/scripts'))
+    .pipe(gulp.dest(__dirname + '/public/scripts'));
 });
 
 //Compile sass
@@ -39,7 +39,19 @@ gulp.task('compileSass', function() {
     .pipe(maps.init())
     .pipe(sass())
     .pipe(maps.write('./'))
-    .pipe(gulp.dest('public/styles/css'))
+    .pipe(gulp.dest('public/styles/css'));
+});
+
+//Copy leaflet.css file to public/styles/css
+gulp.task('copyLeafletCss', function() {
+  return gulp.src('node_modules/leaflet/dist/leaflet.css')
+    .pipe(gulp.dest(__dirname + '/public/styles/css'));
+});
+
+//Copy leaflet img folder to public/styles/css
+gulp.task('copyLeafletImg', function() {
+  return gulp.src('node_modules/leaflet/dist/images/*')
+    .pipe(gulp.dest(__dirname + '/public/styles/css/images'));
 });
 
 //Watch files
@@ -76,4 +88,4 @@ gulp.task('minifyCss', function() {
 gulp.task('build', ['minifyVendorScripts', 'minifyAppScripts', 'minifyCss']);
 
 //Serve
-gulp.task('serve', ['vendors', 'app', 'compileSass', 'watchFiles']);
+gulp.task('serve', ['vendors', 'app', 'copyLeafletCss', 'copyLeafletImg', 'compileSass', 'watchFiles']);
