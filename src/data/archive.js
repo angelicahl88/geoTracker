@@ -55,7 +55,7 @@ var processData = function(trackingNodes) {
   });
 
   //Store all nodes in local file
-  var stringifiedData = JSON.stringify(trackingNodes.node);
+  var stringifiedData = JSON.stringify(trackingNodes);
   fs.writeFileSync(__dirname + '/local_data_storage.json', stringifiedData);
 
   return archive;

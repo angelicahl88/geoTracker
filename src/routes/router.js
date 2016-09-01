@@ -6,6 +6,7 @@ var dummyjson = require('../data/tracking_nodes');
 var expressValidator = require('express-validator');
 var processData = require('../data/archive');
 var postArchive = require('../data/post_archive');
+var fs = require('fs');
 
 
 
@@ -96,7 +97,17 @@ router.post('/api/archive', function(req, res, next) {
 // Frontend viewer at '/viewer'
   // Serve Google maps view with last 100 unique visits
 router.get('/viewer', function(req, res, next) {
-  res.json(dummyjson);
+  var localData = fs.readFileSync(__dirname + '/../data/local_data_storage.json', {encoding: 'utf8'});
+  var localJson = JSON.parse(localData);
+
+// Return last 100 visits
+  var markerArray = [];
+  for(var i = 0; i < 3; i++) {
+    markerArray.push(localJson.node[i]);
+  }
+
+  res.json(markerArray);
+
 });
   // Visits grouped on markers
   // Truncate position to 4 decimal places (not rounding)

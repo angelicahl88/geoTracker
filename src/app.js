@@ -17,7 +17,7 @@
 
   //--CORS handler not included as project is locally hosted--//
 
-  //app.use('/', express.static('public'));
+  app.use('/', express.static('public'));
   app.use('/', router);
 
   // Error handlers
