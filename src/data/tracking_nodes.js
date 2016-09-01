@@ -1,3 +1,5 @@
+'use strict';
+
 var dummyjson = require('dummy-json'),
     fs = require('fs'),
     http = require('http');

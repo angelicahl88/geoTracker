@@ -4,10 +4,13 @@ var express = require('express');
 var router = express.Router();
 var dummyjson = require('../data/tracking_nodes');
 var expressValidator = require('express-validator');
+var processData = require('../data/archive');
+var postArchive = require('../data/post_archive');
+
 
 
 var validInput = function(req) {
-
+  return true;
   // req.checkBody('lat').notEmpty();
   // // req.checkBody(field.long).notEmpty()
   // // req.checkBody(field.time).notEmpty()
@@ -23,54 +26,35 @@ var validInput = function(req) {
   //   return true;
   // }
 
-  for (var i = 0; i < req.body.node.length; i++) {
-    var visit = req.body.node[i];
-
-    for(var j = 0; j < visit.visits.length; j ++) {
-
-      var field = visit.visits[j];
-      req.checkBody('node[1].node_type').notEmpty();
-      // req.checkBody(field.long).notEmpty()
-      // req.checkBody(field.time).notEmpty()
-      // req.checkBody(field.device).notEmpty()
-      // req.checkBody(field.rssi).notEmpty()
-
-      var errors = req.validationErrors();
-
-      if(errors) {
-        console.log('there were some errors' + errors);
-        return false;
-      } else {
-        return true;
-      }
-
-    }
-
-  }
-
-  // return req.checkBody({
-  //   "node": [
-  //     {
-  //       "node_type": { notEmpty: true },
-  //       "visits": [
-  //         {
-  //           "lat": { notEmpty: true },
-  //           "long": { notEmpty: true },
-  //           "time": { notEmpty: true },
-  //           "device": { notEmpty: true },
-  //           "rssi": { notEmpty: true }
-  //         }
-  //       ]
+  // for (var i = 0; i < req.body.node.length; i++) {
+  //   var visit = req.body.node[i];
+  //
+  //   for(var j = 0; j < visit.visits.length; j ++) {
+  //
+  //     var field = visit.visits[j];
+  //     req.checkBody('node[1].node_type').notEmpty();
+  //     // req.checkBody(field.long).notEmpty()
+  //     // req.checkBody(field.time).notEmpty()
+  //     // req.checkBody(field.device).notEmpty()
+  //     // req.checkBody(field.rssi).notEmpty()
+  //
+  //     var errors = req.validationErrors();
+  //
+  //     if(errors) {
+  //       console.log('there were some errors' + errors);
+  //       return false;
+  //     } else {
+  //       return true;
   //     }
-  //   ]
-  // }); //end checkBody
+  //
+  //   }
+  //
+  // }
+
 }
 
 //Authentication
-// Mandatory 'X-Auth-Token: Tracker1234' header
-// Response 'status: ok'
-// Response JSON
-// Response 200 code on success
+// Mandatory 'X-Auth-Token: Tracker1234' headerm
 // Response 403 code on forbidden (invalid token)
 // Response 400 code on malformed input data (all fields required)
 router.use('/api/track', function(req, res, next) {
@@ -84,10 +68,7 @@ router.use('/api/track', function(req, res, next) {
     res.status(400).send({
       status: 'validation_error'
     });
-  }  else {
-    res.status(200).send({
-      status: 'ok'
-    });
+  } else {
     next();
   }
 });
@@ -96,21 +77,19 @@ router.use('/api/track', function(req, res, next) {
 
 // Input data from remote tracking nodes at '/api/track'
 router.post('/api/track', function(req, res, next) {
-  // var body = req.body;
-  console.log(req.body);
-  //res.json(req.body);
+  var data = processData(req.body);
+  postArchive(data);
 });
-  // If duplicate visit, only send visit with strongest signal (rssi)
-  // Archive data from 'tracker'
-  // Archive data from 'internet-provider'
-  // locally store data from mobile
-  // locally store data from drone
+
 
 
 // Processed data from '/api/track' to archive server at '/api/archive'
   // Only accepts 'POST'
 router.post('/api/archive', function(req, res, next) {
-
+  console.log(req.body);
+  res.status(200).send({
+    status: 'ok'
+  });
 });
 
 
